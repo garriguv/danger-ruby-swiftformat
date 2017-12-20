@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Swiftformat::VERSION
   spec.authors       = ['Vincent Garrigues']
   spec.email         = ['vincent.garrigues@gmail.com']
-  spec.description   = %q{A short description of danger-swiftformat.}
-  spec.summary       = %q{A longer description of danger-swiftformat.}
-  spec.homepage      = 'https://github.com/Vincent Garrigues/danger-swiftformat'
+  spec.description   = %q{A danger plugin for checking Swift formatting using SwiftFormat.}
+  spec.summary       = %q{A danger plugin for checking Swift formatting using SwiftFormat.}
+  spec.homepage      = 'https://github.com/garriguv/danger-swiftformat'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)

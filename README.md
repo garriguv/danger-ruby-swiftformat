@@ -1,6 +1,6 @@
 # danger-swiftformat
 
-A description of danger-swiftformat.
+A [danger] plugin to check Swift formatting using [SwiftFormat].
 
 ## Installation
 
@@ -18,3 +18,6 @@ A description of danger-swiftformat.
 3. Run `bundle exec rake spec` to run the tests.
 4. Use `bundle exec guard` to automatically have tests run as you make changes.
 5. Make your changes.
+
+[danger]: https://danger.systems/ruby/
+[SwiftFormat]: https://github.com/nicklockwood/SwiftFormat
