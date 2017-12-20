@@ -9,7 +9,7 @@ require "pry"
 require "rspec"
 require "danger"
 
-if `git remote -v` == ''
+if `git remote -v` == ""
   puts "You cannot run tests without setting a local git remote on this repo"
   puts "It's a weird side-effect of Danger's internals."
   exit(0)

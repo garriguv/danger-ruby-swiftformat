@@ -17,7 +17,6 @@ module Danger
   # @tags monday, weekends, time, rattata
   #
   class DangerSwiftformat < Plugin
-
     # An attribute that you can read/write from your Dangerfile
     #
     # @return   [Array<String>]
@@ -27,7 +26,7 @@ module Danger
     # @return   [Array<String>]
     #
     def warn_on_mondays
-      warn 'Trying to merge code on a Monday' if Date.today.wday == 1
+      warn "Trying to merge code on a Monday" if Date.today.wday == 1
     end
   end
 end
