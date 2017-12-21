@@ -63,3 +63,7 @@ def testing_dangerfile
   env = Danger::EnvironmentManager.new(testing_env)
   Danger::Dangerfile.new(env, testing_ui)
 end
+
+def fixture(name)
+  File.open("spec/fixtures/#{name}", "r", &:read)
+end

@@ -22,8 +22,8 @@ module Danger
     # Runs swiftformat
     #
     # @param [Array<String>] files
-    #   The files on which to run swiftformat, defaults to nil.
-    #   If nil, modified and added files will be checked.
+    #   The files and/or directories on/in which to run swiftformat, defaults to nil.
+    #   If nil, modified and added Swift files will be checked.
     # @param [Boolean] fail_on_error
     #
     # @return [void]
@@ -31,6 +31,29 @@ module Danger
     def check_format(files: nil, fail_on_error: false)
       # Check if SwiftFormat is installed
       raise "Could not find SwiftFormat executable" unless swiftformat.installed?
+
+      # Find Swift files
+      swift_files = find_swift_files(files)
+    end
+
+    # Find the files on which SwiftFormat should be run
+    #
+    # @param [Array<String>] files
+    #   The files and/or directories on/in which to run swiftformat, defaults to nil.
+    #   If nil, modified and added Swift files will be checked.
+    #
+    # @return [Array<String]
+    def find_swift_files(files)
+      files = if files.nil?
+                (git.modified_files - git.deleted_files) + git.added_files
+              else
+                Dir.glob(files)
+              end
+
+      files
+        .select { |file| file.end_with?(".swift") }
+        .map { |file| Shellwords.escape(File.expand_path(file)) }
+        .uniq
     end
 
     # Constructs the SwiftFormat class

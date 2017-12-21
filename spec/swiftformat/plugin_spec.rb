@@ -30,6 +30,12 @@ module Danger
           expect(@sut.swiftformat).to eq(swiftformat)
         end
       end
+
+      describe "#check_format" do
+        before do
+          allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
+        end
+      end
     end
   end
 end
