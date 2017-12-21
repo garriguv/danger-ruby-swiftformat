@@ -34,10 +34,10 @@ You can specify the `swiftformat` binary using the `binary_path` parameter:
 swiftformat.binary_path = "/path/to/swiftformat"
 ```
 
-You can specify additional `swiftformat` arguments using the `additional_swiftformat_args` parameter:
+You can specify additional `swiftformat` arguments using the `additional_args` parameter:
 
 ```ruby
-swiftformat.additional_swiftformat_args = "--indent tab --self insert"
+swiftformat.additional_args = "--indent tab --self insert"
 ```
 
 ## Development
