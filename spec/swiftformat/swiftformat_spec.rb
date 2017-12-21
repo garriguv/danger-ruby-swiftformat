@@ -78,8 +78,8 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should raise an error if the output is empty" do
       expect(@cmd).to receive(:run)
-                          .with(%w(swiftformat . --dryrun --verbose))
-                          .and_return("")
+        .with(%w(swiftformat . --dryrun --verbose))
+        .and_return("")
 
       expect { @sut.check_format(%w(.)) }.to raise_error("error running swiftformat: empty output")
     end

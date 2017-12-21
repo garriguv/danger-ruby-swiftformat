@@ -33,7 +33,7 @@ module Danger
 
       describe "#check_format" do
         let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
-        let(:error_output) { { errors: [ { file: "Modified.swift", rules: %w(firstRule secondRule) } ], stats: { run_time: "0.16s" } } }
+        let(:error_output) { { errors: [{ file: "Modified.swift", rules: %w(firstRule secondRule) }], stats: { run_time: "0.16s" } } }
 
         before do
           allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
