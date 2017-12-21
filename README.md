@@ -1,4 +1,4 @@
-# danger-swiftformat [![Build Status](https://travis-ci.org/garriguv/danger-ruby-swiftformat.svg?branch=master)](https://travis-ci.org/garriguv/danger-ruby-swiftformat) [![Gem Version](https://badge.fury.io/rb/danger-swiftformat.svg)](https://badge.fury.io/rb/danger-swiftformat)
+# danger-swiftformat [![Build Status](https://travis-ci.org/garriguv/danger-ruby-swiftformat.svg?branch=master)](https://travis-ci.org/garriguv/danger-ruby-swiftformat) [![Gem Version](https://badge.fury.io/rb/danger-swiftformat.svg)](https://rubygems.org/gems/danger-swiftformat)
 
 A [Danger] plugin to check Swift formatting using [SwiftFormat].
 
