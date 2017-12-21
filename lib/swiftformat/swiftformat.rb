@@ -10,6 +10,7 @@ module Danger
 
     def check_format(files)
       output = Cmd.run([@path] + files + %w(--dryrun --verbose))
+      raise "error running swiftformat: empty output" if output.empty?
       process(output)
     end
 
@@ -38,7 +39,7 @@ module Danger
       errors
     end
 
-    RUNTIME_REGEX = /^swiftformat completed.*(.+\..+)$/
+    RUNTIME_REGEX = /.*swiftformat completed.*(.+\..+)s/
 
     def run_time(output)
       RUNTIME_REGEX.match(output)[1]

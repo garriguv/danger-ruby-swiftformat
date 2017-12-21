@@ -14,46 +14,50 @@ module Danger
     # @return [String]
     attr_accessor :binary_path
 
-    # Allows you to specify a directory from where swiftformat will be run
-    #
-    # @return [Array<String>]
-    attr_accessor :directory
-
     # Runs swiftformat
     #
-    # @param [Array<String>] files
-    #   The files and/or directories on/in which to run swiftformat, defaults to nil.
-    #   If nil, modified and added Swift files will be checked.
     # @param [Boolean] fail_on_error
     #
     # @return [void]
     #
-    def check_format(files: nil, fail_on_error: false)
+    def check_format(fail_on_error: false)
       # Check if SwiftFormat is installed
       raise "Could not find SwiftFormat executable" unless swiftformat.installed?
 
       # Find Swift files
-      swift_files = find_swift_files(files)
+      swift_files = find_swift_files
+
+      # Run swiftformat
+      results = swiftformat.check_format(swift_files)
+
+      # Stop processing if the errors array is empty
+      return if results[:errors].empty?
+
+      # Process the errors
+      message = "### SwiftFormat found issues:\n\n"
+      message << "| File | Rules |\n"
+      message << "| ---- | ----- |\n"
+      results[:errors].each do |error|
+        message << "| #{error[:file]} | #{error[:rules].join(', ')} |\n"
+      end
+      markdown message
+
+      if fail_on_error
+        fail "SwiftFormat found issues"
+      end
     end
 
     # Find the files on which SwiftFormat should be run
     #
-    # @param [Array<String>] files
-    #   The files and/or directories on/in which to run swiftformat, defaults to nil.
-    #   If nil, modified and added Swift files will be checked.
-    #
     # @return [Array<String]
-    def find_swift_files(files)
-      files = if files.nil?
-                (git.modified_files - git.deleted_files) + git.added_files
-              else
-                Dir.glob(files)
-              end
+    def find_swift_files
+      files = (git.modified_files - git.deleted_files) + git.added_files
 
       files
         .select { |file| file.end_with?(".swift") }
-        .map { |file| Shellwords.escape(File.expand_path(file)) }
+        .map { |file| Shellwords.escape(file) }
         .uniq
+        .sort
     end
 
     # Constructs the SwiftFormat class
