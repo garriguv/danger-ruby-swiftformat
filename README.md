@@ -2,14 +2,24 @@
 
 A [danger] plugin to check Swift formatting using [SwiftFormat].
 
+This plugin is heavily inspired by [danger-swiftlint].
+
 ## Installation
 
     $ gem install danger-swiftformat
 
 ## Usage
 
-    Methods and attributes from this plugin are available in
-    your `Dangerfile` under the `swiftformat` namespace.
+Add the following to your `Gemfile`
+
+    require 'danger-swiftformat'
+
+In your `Dangerfile`
+
+```ruby
+swiftformat.binary_path = "/path/to/swiftformat" # optional, but recommended ;)
+swiftformat.check_format(fail_on_error: true)
+```
 
 ## Development
 
@@ -21,3 +31,4 @@ A [danger] plugin to check Swift formatting using [SwiftFormat].
 
 [danger]: https://danger.systems/ruby/
 [SwiftFormat]: https://github.com/nicklockwood/SwiftFormat
+[danger-swiftlint]: https://github.com/ashfurrow/danger-ruby-swiftlint
