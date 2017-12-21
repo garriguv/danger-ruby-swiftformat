@@ -60,6 +60,7 @@ module Danger
 
         context "when there are no swift files to check" do
           before do
+            allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
             allow(@sut.git).to receive(:added_files).and_return(["Added.m"])
             allow(@sut.git).to receive(:modified_files).and_return(["Modified.m"])
             allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.m"])
