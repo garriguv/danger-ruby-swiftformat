@@ -31,10 +31,32 @@ module Danger
         end
       end
 
+      context "with additional_swiftformat_args" do
+        let(:additional_swiftformat_args) { "--indent tab --self insert" }
+        let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
+
+        it "should pass the additional flags to swiftformat" do
+          allow(@sut.git).to receive(:added_files).and_return(["Added.swift"])
+          allow(@sut.git).to receive(:modified_files).and_return(["Modified.swift"])
+          allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.swift"])
+          allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
+          allow_any_instance_of(SwiftFormat).to receive(:check_format)
+            .with(%w(Added.swift Modified.swift), additional_swiftformat_args)
+            .and_return(success_output)
+
+          @sut.additional_swiftformat_args = additional_swiftformat_args
+
+          @sut.check_format(fail_on_error: true)
+
+          status = @sut.status_report
+          expect(status[:errors]).to be_empty
+          expect(status[:markdowns]).to be_empty
+        end
+      end
+
       describe "#check_format" do
         let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
         let(:error_output) { { errors: [{ file: "Modified.swift", rules: %w(firstRule secondRule) }], stats: { run_time: "0.16s" } } }
-
 
         context "when there are no swift files to check" do
           before do
@@ -62,7 +84,7 @@ module Danger
 
           context "when swiftformat does not find any errors" do
             before do
-              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift)).and_return(success_output)
+              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil).and_return(success_output)
             end
 
             it "should not do anything" do
@@ -76,7 +98,7 @@ module Danger
 
           context "when swiftformat finds errors" do
             before do
-              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift)).and_return(error_output)
+              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil).and_return(error_output)
             end
 
             it "should output some markdown and error if fail_on_error is true" do

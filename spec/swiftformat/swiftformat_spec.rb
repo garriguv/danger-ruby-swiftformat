@@ -83,5 +83,20 @@ RSpec.describe Danger::SwiftFormat do
 
       expect { @sut.check_format(%w(.)) }.to raise_error("error running swiftformat: empty output")
     end
+
+    it "should support additional command line arguments" do
+      expect(@cmd).to receive(:run)
+        .with(%w(swiftformat . --self insert --indent tab --dryrun --verbose))
+        .and_return(fixture("swiftformat_output.txt"))
+
+      output = {
+          errors: [],
+          stats: {
+              run_time: "0.08"
+          }
+      }
+
+      expect(@sut.check_format(%w(.), "--self insert --indent tab")).to eq(output)
+    end
   end
 end
