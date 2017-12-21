@@ -64,7 +64,7 @@ module Danger
     #
     # @return [SwiftFormat]
     def swiftformat
-      @swiftformat ||= SwiftFormat.new(binary_path)
+      SwiftFormat.new(binary_path)
     end
   end
 end
