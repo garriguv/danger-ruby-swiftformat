@@ -1,24 +1,37 @@
 # danger-swiftformat [![Build Status](https://travis-ci.org/garriguv/danger-ruby-swiftformat.svg?branch=master)](https://travis-ci.org/garriguv/danger-ruby-swiftformat)
 
-A [danger] plugin to check Swift formatting using [SwiftFormat].
+A [Danger] plugin to check Swift formatting using [SwiftFormat].
 
 This plugin is heavily inspired by [danger-swiftlint].
 
 ## Installation
 
-    $ gem install danger-swiftformat
-
-## Usage
-
-Add the following to your `Gemfile`
+Add this line to your Gemfile:
 
     require 'danger-swiftformat'
 
-In your `Dangerfile`
+[SwiftFormat] also needs to be installed before you run Danger.
+
+## Usage
+
+Add this to your `Dangerfile`
 
 ```ruby
-swiftformat.binary_path = "/path/to/swiftformat" # optional, but recommended ;)
+swiftformat.check_format
+```
+
+By default, danger-swiftformat will check added and modified files.
+
+If you want errors to fail Danger, you can use the `fail_on_error` option:
+
+```ruby
 swiftformat.check_format(fail_on_error: true)
+```
+
+You can specify the `swiftformat` binary using the `binary_path` parameter:
+
+```ruby
+swiftformat.binary_path = "/path/to/swiftformat"
 ```
 
 ## Development
@@ -29,6 +42,6 @@ swiftformat.check_format(fail_on_error: true)
 4. Use `bundle exec guard` to automatically have tests run as you make changes.
 5. Make your changes.
 
-[danger]: https://danger.systems/ruby/
+[Danger]: https://danger.systems/ruby/
 [SwiftFormat]: https://github.com/nicklockwood/SwiftFormat
 [danger-swiftlint]: https://github.com/ashfurrow/danger-ruby-swiftlint
