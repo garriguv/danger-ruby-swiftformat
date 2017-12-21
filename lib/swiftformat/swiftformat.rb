@@ -8,8 +8,11 @@ module Danger
       Cmd.run([@path, "--version"])
     end
 
-    def check_format(files)
-      output = Cmd.run([@path] + files + %w(--dryrun --verbose))
+    def check_format(files, additional_args = "")
+      cmd = [@path] + files
+      cmd << additional_args.split unless additional_args.empty?
+      cmd << %w(--dryrun --verbose)
+      output = Cmd.run(cmd.flatten)
       raise "error running swiftformat: empty output" if output.empty?
       process(output)
     end
