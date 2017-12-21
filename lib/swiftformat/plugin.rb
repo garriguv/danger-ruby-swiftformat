@@ -27,6 +27,9 @@ module Danger
       # Find Swift files
       swift_files = find_swift_files
 
+      # Stop processing if there are no swift files
+      return if swift_files.empty?
+
       # Run swiftformat
       results = swiftformat.check_format(swift_files)
 

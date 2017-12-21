@@ -35,16 +35,12 @@ module Danger
         let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
         let(:error_output) { { errors: [{ file: "Modified.swift", rules: %w(firstRule secondRule) }], stats: { run_time: "0.16s" } } }
 
-        before do
-          allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
-          allow(@sut.git).to receive(:added_files).and_return(["Added.swift"])
-          allow(@sut.git).to receive(:modified_files).and_return(["Modified.swift"])
-          allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.swift"])
-        end
 
-        context "when swiftformat does not find any errors" do
+        context "when there are no swift files to check" do
           before do
-            allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift)).and_return(success_output)
+            allow(@sut.git).to receive(:added_files).and_return(["Added.m"])
+            allow(@sut.git).to receive(:modified_files).and_return(["Modified.m"])
+            allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.m"])
           end
 
           it "should not do anything" do
@@ -56,25 +52,48 @@ module Danger
           end
         end
 
-        context "when swiftformat finds errors" do
+        context "when there are swift files to check" do
           before do
-            allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift)).and_return(error_output)
+            allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
+            allow(@sut.git).to receive(:added_files).and_return(["Added.swift"])
+            allow(@sut.git).to receive(:modified_files).and_return(["Modified.swift"])
+            allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.swift"])
           end
 
-          it "should output some markdown and error if fail_on_error is true" do
-            @sut.check_format(fail_on_error: true)
+          context "when swiftformat does not find any errors" do
+            before do
+              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift)).and_return(success_output)
+            end
 
-            status = @sut.status_report
-            expect(status[:errors]).to_not be_empty
-            expect(status[:markdowns]).to_not be_empty
+            it "should not do anything" do
+              @sut.check_format(fail_on_error: true)
+
+              status = @sut.status_report
+              expect(status[:errors]).to be_empty
+              expect(status[:markdowns]).to be_empty
+            end
           end
 
-          it "should output some markdown and not error if fail_on_error is false" do
-            @sut.check_format(fail_on_error: false)
+          context "when swiftformat finds errors" do
+            before do
+              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift)).and_return(error_output)
+            end
 
-            status = @sut.status_report
-            expect(status[:errors]).to be_empty
-            expect(status[:markdowns]).to_not be_empty
+            it "should output some markdown and error if fail_on_error is true" do
+              @sut.check_format(fail_on_error: true)
+
+              status = @sut.status_report
+              expect(status[:errors]).to_not be_empty
+              expect(status[:markdowns]).to_not be_empty
+            end
+
+            it "should output some markdown and not error if fail_on_error is false" do
+              @sut.check_format(fail_on_error: false)
+
+              status = @sut.status_report
+              expect(status[:errors]).to be_empty
+              expect(status[:markdowns]).to_not be_empty
+            end
           end
         end
       end
