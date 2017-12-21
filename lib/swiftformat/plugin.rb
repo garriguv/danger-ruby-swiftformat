@@ -1,32 +1,43 @@
 module Danger
-  # This is your plugin class. Any attributes or methods you expose here will
-  # be available from within your Dangerfile.
+  # A danger plugin to check Swift formatting using SwiftFormat.
   #
-  # To be published on the Danger plugins site, you will need to have
-  # the public interface documented. Danger uses [YARD](http://yardoc.org/)
-  # for generating documentation from your plugin source, and you can verify
-  # by running `danger plugins lint` or `bundle exec rake spec`.
+  # @example Check that the added and modified files are properly formatted:
   #
-  # You should replace these comments with a public description of your library.
+  #          swiftformat.check_format
   #
-  # @example Ensure people are well warned about merging on Mondays
-  #
-  #          my_plugin.warn_on_mondays
-  #
-  # @see  Vincent Garrigues/danger-swiftformat
-  # @tags monday, weekends, time, rattata
+  # @see  garriguv/danger-swiftformat
+  # @tags swiftformat
   #
   class DangerSwiftformat < Plugin
-    # An attribute that you can read/write from your Dangerfile
+    # The path to SwiftFormat's executable
     #
-    # @return   [Array<String>]
-    attr_accessor :my_attribute
+    # @return [String]
+    attr_accessor :binary_path
 
-    # A method that you can call from your Dangerfile
-    # @return   [Array<String>]
+    # Allows you to specify a directory from where swiftformat will be run
     #
-    def warn_on_mondays
-      warn "Trying to merge code on a Monday" if Date.today.wday == 1
+    # @return [Array<String>]
+    attr_accessor :directory
+
+    # Runs swiftformat
+    #
+    # @param [Array<String>] files
+    #   The files on which to run swiftformat, defaults to nil.
+    #   If nil, modified and added files will be checked.
+    # @param [Boolean] fail_on_error
+    #
+    # @return [void]
+    #
+    def check_format(files: nil, fail_on_error: false)
+      # Check if SwiftFormat is installed
+      raise "Could not find SwiftFormat executable" unless swiftformat.installed?
+    end
+
+    # Constructs the SwiftFormat class
+    #
+    # @return [SwiftFormat]
+    def swiftformat
+      @swiftformat ||= SwiftFormat.new(binary_path)
     end
   end
 end
