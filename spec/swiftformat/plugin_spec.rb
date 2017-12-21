@@ -31,8 +31,8 @@ module Danger
         end
       end
 
-      context "with additional_swiftformat_args" do
-        let(:additional_swiftformat_args) { "--indent tab --self insert" }
+      context "with additional_args" do
+        let(:additional_args) { "--indent tab --self insert" }
         let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
 
         it "should pass the additional flags to swiftformat" do
@@ -41,10 +41,10 @@ module Danger
           allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.swift"])
           allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
           allow_any_instance_of(SwiftFormat).to receive(:check_format)
-            .with(%w(Added.swift Modified.swift), additional_swiftformat_args)
+            .with(%w(Added.swift Modified.swift), additional_args)
             .and_return(success_output)
 
-          @sut.additional_swiftformat_args = additional_swiftformat_args
+          @sut.additional_args = additional_args
 
           @sut.check_format(fail_on_error: true)
 

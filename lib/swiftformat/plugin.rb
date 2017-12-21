@@ -17,7 +17,7 @@ module Danger
     # Additional swiftformat command line arguments
     #
     # @return [String]
-    attr_accessor :additional_swiftformat_args
+    attr_accessor :additional_args
 
     # Runs swiftformat
     #
@@ -36,7 +36,7 @@ module Danger
       return if swift_files.empty?
 
       # Run swiftformat
-      results = swiftformat.check_format(swift_files, additional_swiftformat_args)
+      results = swiftformat.check_format(swift_files, additional_args)
 
       # Stop processing if the errors array is empty
       return if results[:errors].empty?
