@@ -10,7 +10,7 @@ module Danger
 
     def check_format(files, additional_args = "")
       cmd = [@path] + files
-      cmd << additional_args.split unless additional_args.empty?
+      cmd << additional_args.split unless additional_args.nil? || additional_args.empty?
       cmd << %w(--dryrun --verbose)
       output = Cmd.run(cmd.flatten)
       raise "error running swiftformat: empty output" if output.empty?
