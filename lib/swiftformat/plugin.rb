@@ -63,7 +63,6 @@ module Danger
 
       files
         .select { |file| file.end_with?(".swift") }
-        .map { |file| Shellwords.escape(file) }
         .uniq
         .sort
     end
