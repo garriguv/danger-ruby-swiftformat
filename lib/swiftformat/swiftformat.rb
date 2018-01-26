@@ -45,7 +45,11 @@ module Danger
     RUNTIME_REGEX = /.*swiftformat completed.*(.+\..+)s/
 
     def run_time(output)
-      RUNTIME_REGEX.match(output)[1]
+      if RUNTIME_REGEX.match?(output)
+        RUNTIME_REGEX.match(output)[1]
+      else
+        "-1"
+      end
     end
   end
 end
