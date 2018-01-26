@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-swiftformat (0.3.0)
+    danger-swiftformat (0.3.1)
       danger-plugin-api (~> 1.0)
 
 GEM
@@ -19,7 +19,7 @@ GEM
     colored2 (3.1.2)
     cork (0.3.0)
       colored2 (~> 3.1)
-    danger (5.5.5)
+    danger (5.5.6)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
       colored2 (~> 3.1)
