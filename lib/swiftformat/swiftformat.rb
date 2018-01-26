@@ -47,7 +47,7 @@ module Danger
     RUNTIME_REGEX = /.*swiftformat completed.*(.+\..+)s/
 
     def run_time(output)
-      if RUNTIME_REGEX.match?(output)
+      if RUNTIME_REGEX.match(output)
         RUNTIME_REGEX.match(output)[1]
       else
         logger = Logger.new(STDERR)
