@@ -113,5 +113,20 @@ RSpec.describe Danger::SwiftFormat do
 
       expect(@sut.check_format(%w(.), "--self insert --indent tab")).to eq(output)
     end
+
+    it "should not crash if the output is invalid" do
+      expect(@cmd).to receive(:run)
+        .with(%w(swiftformat . --self insert --indent tab --dryrun --verbose))
+        .and_return(fixture("swiftformat_output_bad.txt"))
+
+      output = {
+          errors: [],
+          stats: {
+              run_time: "-1"
+          }
+      }
+
+      expect(@sut.check_format(%w(.), "--self insert --indent tab")).to eq(output)
+    end
   end
 end

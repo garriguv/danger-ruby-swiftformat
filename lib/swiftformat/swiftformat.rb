@@ -1,3 +1,5 @@
+require "logger"
+
 module Danger
   class SwiftFormat
     def initialize(path = nil)
@@ -45,7 +47,13 @@ module Danger
     RUNTIME_REGEX = /.*swiftformat completed.*(.+\..+)s/
 
     def run_time(output)
-      RUNTIME_REGEX.match(output)[1]
+      if RUNTIME_REGEX.match(output)
+        RUNTIME_REGEX.match(output)[1]
+      else
+        logger = Logger.new(STDERR)
+        logger.error("Invalid run_time output: #{output}")
+        "-1"
+      end
     end
   end
 end
