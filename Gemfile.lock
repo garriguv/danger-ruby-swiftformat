@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-swiftformat (0.3.2)
+    danger-swiftformat (0.3.3)
       danger-plugin-api (~> 1.0)
 
 GEM
@@ -34,7 +34,7 @@ GEM
     danger-plugin-api (1.0.0)
       danger (> 2.0)
     diff-lcs (1.3)
-    faraday (0.13.1)
+    faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
     faraday-http-cache (1.3.1)
       faraday (~> 0.8)
@@ -79,7 +79,7 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    public_suffix (3.0.1)
+    public_suffix (3.0.2)
     rainbow (3.0.0)
     rake (12.3.0)
     rb-fsevent (0.10.2)
@@ -133,4 +133,4 @@ DEPENDENCIES
   yard (~> 0.9)
 
 BUNDLED WITH
-   1.16.0
+   1.16.3
