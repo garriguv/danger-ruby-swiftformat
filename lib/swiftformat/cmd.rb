@@ -1,3 +1,5 @@
+require "shellwords"
+
 module Danger
   class Cmd
     def self.run(cmd)
