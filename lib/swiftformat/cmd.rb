@@ -1,3 +1,4 @@
+require "colorize"
 require "shellwords"
 
 module Danger
@@ -5,7 +6,7 @@ module Danger
     def self.run(cmd)
       stdout, _stderr, _status = Open3.capture3(cmd.shelljoin)
 
-      stdout.strip
+      stdout.strip.uncolorize
     end
   end
 end
