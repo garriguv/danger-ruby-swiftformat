@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-swiftformat (0.3.3)
+    danger-swiftformat (0.3.4)
       colorize (~> 0.7.7)
       danger-plugin-api (~> 1.0)
 
