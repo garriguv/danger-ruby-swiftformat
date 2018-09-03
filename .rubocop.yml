@@ -3,7 +3,7 @@
 # If you don't like these settings, just delete this file :)
 
 AllCops:
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.2
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -127,7 +127,7 @@ Metrics/BlockLength:
 Style/MixinGrouping:
   Enabled: false
 
-Style/FileName:
+Naming/FileName:
   Enabled: false
 
 Layout/IndentHeredoc:
