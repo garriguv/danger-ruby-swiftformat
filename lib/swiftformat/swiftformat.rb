@@ -16,6 +16,7 @@ module Danger
       cmd << %w(--dryrun --verbose)
       output = Cmd.run(cmd.flatten)
       raise "error running swiftformat: empty output" if output.empty?
+
       process(output)
     end
 
@@ -36,6 +37,7 @@ module Danger
       errors = []
       output.scan(ERRORS_REGEX) do |match|
         next if match.count < 2
+
         errors << {
             file: match[1],
             rules: match[0].split(",").map(&:strip)
