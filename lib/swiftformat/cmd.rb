@@ -4,9 +4,7 @@ require "shellwords"
 module Danger
   class Cmd
     def self.run(cmd)
-      stdout, _stderr, _status = Open3.capture3(cmd.shelljoin)
-
-      stdout.strip.no_color
+      Open3.capture3(cmd.shelljoin)
     end
   end
 end
