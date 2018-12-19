@@ -54,6 +54,30 @@ module Danger
         end
       end
 
+      context "with files provided" do
+        let(:files) { ["Added.swift"] }
+        let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
+
+        it "should pass the provided files to swiftformat" do
+          expect(@sut.git).not_to receive(:added_files)
+          expect(@sut.git).not_to receive(:modified_files)
+          expect(@sut.git).not_to receive(:deleted_files)
+          allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
+          allow_any_instance_of(SwiftFormat).to receive(:check_format)
+            .with(%w(Added.swift), "")
+            .and_return(success_output)
+
+          @sut.files = files
+          @sut.additional_args = ""
+
+          @sut.check_format(fail_on_error: true)
+
+          status = @sut.status_report
+          expect(status[:errors]).to be_empty
+          expect(status[:markdowns]).to be_empty
+        end
+      end
+
       describe "#check_format" do
         let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
         let(:error_output) { { errors: [{ file: "Modified.swift", rules: %w(firstRule secondRule) }], stats: { run_time: "0.16s" } } }

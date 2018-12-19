@@ -19,6 +19,13 @@ module Danger
     # @return [String]
     attr_accessor :additional_args
 
+    # Paths to files on which SwiftFormat should executed.
+    # If empty, this plugin uses all added and modified 
+    # Swift files of this PR. 
+    #
+    # @return [Array<String]
+    attr_accessor :files
+
     # Runs swiftformat
     #
     # @param [Boolean] fail_on_error
@@ -30,7 +37,7 @@ module Danger
       raise "Could not find SwiftFormat executable" unless swiftformat.installed?
 
       # Find Swift files
-      swift_files = find_swift_files
+      swift_files = @files.nil? || @files.empty? ? find_swift_files : @files
 
       # Stop processing if there are no swift files
       return if swift_files.empty?
