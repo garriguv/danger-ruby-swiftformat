@@ -14,8 +14,18 @@ module Danger
       cmd = [@path] + files
       cmd << additional_args.split unless additional_args.nil? || additional_args.empty?
       cmd << %w(--dryrun --verbose)
-      output = Cmd.run(cmd.flatten)
-      raise "error running swiftformat: empty output" if output.empty?
+      stdout, stderr, status = Cmd.run(cmd.flatten)
+
+      output = stdout.empty? ? stderr : stdout
+      raise "Error running SwiftFormat: Empty output." unless output
+
+      output = output.strip.no_color
+
+      if status && !status.success?
+        raise "Error running SwiftFormat:\nError: #{output}"
+      else
+        raise "Error running SwiftFormat: Empty output." if output.empty?
+      end
 
       process(output)
     end
