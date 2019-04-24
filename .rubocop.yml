@@ -150,3 +150,7 @@ PercentLiteralDelimiters:
 
 Security/YAMLLoad:
   Enabled: false
+
+Metrics/ModuleLength:
+  Exclude:
+    - "**/*_spec.rb"
