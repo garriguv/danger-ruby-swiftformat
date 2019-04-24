@@ -8,7 +8,7 @@ This plugin is heavily inspired by [danger-swiftlint].
 
 Add this line to your Gemfile:
 
-    require 'danger-swiftformat'
+    gem 'danger-swiftformat'
 
 [SwiftFormat] also needs to be installed before you run Danger.
 
