@@ -19,6 +19,11 @@ module Danger
     # @return [String]
     attr_accessor :additional_args
 
+    # Additional message to be appended the report
+    #
+    # @return [String]
+    attr_accessor :additional_message
+
     # Runs swiftformat
     #
     # @param [Boolean] fail_on_error
@@ -48,6 +53,11 @@ module Danger
       results[:errors].each do |error|
         message << "| #{error[:file].gsub(Dir.pwd + '/', '')} | #{error[:rules].join(', ')} |\n"
       end
+
+      unless additional_message.nil?
+        message << "\n" << additional_message
+      end
+
       markdown message
 
       if fail_on_error
