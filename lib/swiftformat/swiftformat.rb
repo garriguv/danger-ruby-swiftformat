@@ -41,7 +41,7 @@ module Danger
       }
     end
 
-    ERRORS_REGEX = /rules applied:(.*)\n.*updated (.*)$/
+    ERRORS_REGEX = /rules applied:(.*)\n.*updated (.*)$/.freeze
 
     def errors(output)
       errors = []
@@ -56,7 +56,7 @@ module Danger
       errors
     end
 
-    RUNTIME_REGEX = /.*swiftformat completed.*(.+\..+)s/
+    RUNTIME_REGEX = /.*swiftformat completed.*(.+\..+)s/.freeze
 
     def run_time(output)
       if RUNTIME_REGEX.match(output)
