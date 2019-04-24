@@ -54,6 +54,25 @@ module Danger
         end
       end
 
+      context "with additional_message" do
+        let(:additional_message) { "I'm the additional message." }
+        let(:error_output) { { errors: [{ file: "Modified.swift", rules: %w(firstRule secondRule) }], stats: { run_time: "0.16s" } } }
+
+        it "should include the additional message in the report" do
+          allow(@sut.git).to receive(:added_files).and_return(["Added.swift"])
+          allow(@sut.git).to receive(:modified_files).and_return(["Modified.swift"])
+          allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.swift"])
+          allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
+          allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil).and_return(error_output)
+          @sut.additional_message = additional_message
+          @sut.check_format(fail_on_error: true)
+
+          status = @sut.status_report
+          markdown = status[:markdowns].first.message
+          expect(markdown).to include(additional_message)
+        end
+      end
+
       describe "#check_format" do
         let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
         let(:error_output) { { errors: [{ file: "Modified.swift", rules: %w(firstRule secondRule) }], stats: { run_time: "0.16s" } } }
