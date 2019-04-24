@@ -24,6 +24,11 @@ module Danger
     # @return [String]
     attr_accessor :additional_message
 
+    # An array of file and directory paths to exclude
+    #
+    # @return [Array<String]
+    attr_accessor :exclude
+
     # Runs swiftformat
     #
     # @param [Boolean] fail_on_error
@@ -71,8 +76,11 @@ module Danger
     def find_swift_files
       files = (git.modified_files - git.deleted_files) + git.added_files
 
+      @exclude = %w() if @exclude.nil?
+
       files
         .select { |file| file.end_with?(".swift") }
+        .reject { |file| @exclude.any? { |glob| File.fnmatch(glob, file) } }
         .uniq
         .sort
     end
