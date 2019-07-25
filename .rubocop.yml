@@ -37,6 +37,9 @@ Layout/DotPosition:
 Style/DoubleNegation:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 # Cop supports --auto-correct.
 Lint/UnusedBlockArgument:
   Enabled: false
