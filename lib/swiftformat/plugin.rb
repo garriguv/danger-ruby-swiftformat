@@ -74,7 +74,12 @@ module Danger
     #
     # @return [Array<String]
     def find_swift_files
-      files = (git.modified_files - git.deleted_files) + git.added_files
+      renamed_files_hash = git.renamed_files.map { |rename| [rename[:before], rename[:after]] }.to_h
+
+      post_rename_modified_files = git.modified_files
+        .map { |modified_file| renamed_files_hash[modified_file] || modified_file }
+
+      files = (post_rename_modified_files - git.deleted_files) + git.added_files
 
       @exclude = %w() if @exclude.nil?
 
