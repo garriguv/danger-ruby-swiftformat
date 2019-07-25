@@ -3,7 +3,7 @@
 # If you don't like these settings, just delete this file :)
 
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -23,7 +23,7 @@ Lint/UselessAssignment:
     - '**/spec/**/*'
 
 # We could potentially enable the 2 below:
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   Enabled: false
 
 Layout/AlignHash:
@@ -35,6 +35,9 @@ Layout/DotPosition:
 
 # We allow !! as it's an easy way to convert ot boolean
 Style/DoubleNegation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 # Cop supports --auto-correct.
