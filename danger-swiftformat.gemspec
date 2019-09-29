@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{A danger plugin for checking Swift formatting using SwiftFormat.}
   spec.homepage      = 'https://github.com/garriguv/danger-swiftformat'
   spec.license       = 'MIT'
+  spec.metadata      = { "github_repo" => "ssh://github.com/garriguv/danger-ruby-swiftformat" }
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

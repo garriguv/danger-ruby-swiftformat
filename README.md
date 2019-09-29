@@ -62,6 +62,16 @@ The `exclude` option takes an array of glob patterns; you can find additional do
 4. Use `bundle exec guard` to automatically have tests run as you make changes.
 5. Make your changes.
 
+## Releasing a new version
+
+Use the release.sh script:
+
+```shell
+./scripts/release.sh
+```
+
+Then bump the gem to the next patch version.
+
 [Danger]: https://danger.systems/ruby/
 [SwiftFormat]: https://github.com/nicklockwood/SwiftFormat
 [danger-swiftlint]: https://github.com/ashfurrow/danger-ruby-swiftlint
