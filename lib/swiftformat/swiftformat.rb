@@ -41,7 +41,7 @@ module Danger
       }
     end
 
-    ERRORS_REGEX = /rules applied:(.*)\n.*updated (.*)$/.freeze
+    ERRORS_REGEX = /Formatting\s(.*)\n-- rules applied:(.*)$/.freeze
 
     def errors(output)
       errors = []
@@ -49,14 +49,14 @@ module Danger
         next if match.count < 2
 
         errors << {
-            file: match[1],
-            rules: match[0].split(",").map(&:strip)
+            file: match[0],
+            rules: match[1].split(",").map(&:strip)
         }
       end
       errors
     end
 
-    RUNTIME_REGEX = /.*swiftformat completed.*(.+\..+)s/.freeze
+    RUNTIME_REGEX = /.*SwiftFormat completed.*(.+\..+)s/.freeze
 
     def run_time(output)
       if RUNTIME_REGEX.match(output)
