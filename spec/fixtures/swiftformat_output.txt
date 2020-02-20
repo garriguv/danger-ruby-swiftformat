@@ -1,9 +1,11 @@
-running swiftformat...
-formatting /Users/garriguv/FirstClass.swift
+Running SwiftFormat...
+(dryrun mode - no files will be changed.)
+Formatting /Users/garriguv/FirstClass.swift
 -- no changes
-formatting /Users/garriguv/FileWithErrors.swift
+Formatting /Users/garriguv/FileWithErrors.swift
 -- no changes
-formatting /Users/garriguv/OtherFile.swift
+Formatting /Users/garriguv/OtherFile.swift
 -- no changes
 
-swiftformat completed. 0/3 files would have been updated in 0.08s
+SwiftFormat completed in 0.08s.
+0/3 files would have been formatted.
