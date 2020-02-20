@@ -127,7 +127,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.16)
+  bundler (~> 2.1)
   danger-swiftformat!
   faraday (= 0.15.4)
   guard (~> 2.14)
