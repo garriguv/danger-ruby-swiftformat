@@ -44,6 +44,12 @@ You can specify additional `swiftformat` arguments using the `additional_args` p
 swiftformat.additional_args = "--indent tab --self insert"
 ```
 
+You can specify additional message (e.g. how to fix format issue) for danger comment using the `additional_message` parameter:
+
+```ruby
+swiftformat.additional_message = "your additional message for contributor"
+```
+
 By default, `danger-swiftformat` will run on any modified or created file ending in `.swift`. If you'd like to exclude
 certain directories or files such as `Pods`, you can use the `exclude` parameter:
 
