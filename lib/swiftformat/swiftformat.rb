@@ -13,7 +13,7 @@ module Danger
     def check_format(files, additional_args = "")
       cmd = [@path] + files
       cmd << additional_args.split unless additional_args.nil? || additional_args.empty?
-      cmd << %w(--lint .)
+      cmd << %w(--lint --lenient .)
       stdout, stderr, status = Cmd.run(cmd.flatten)
 
       output = stdout.empty? ? stderr : stdout
