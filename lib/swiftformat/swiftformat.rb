@@ -13,7 +13,7 @@ module Danger
     def check_format(files, additional_args = "")
       cmd = [@path] + files
       cmd << additional_args.split unless additional_args.nil? || additional_args.empty?
-      cmd << %w(--dryrun --verbose)
+      cmd << %w(--lint .)
       stdout, stderr, status = Cmd.run(cmd.flatten)
 
       output = stdout.empty? ? stderr : stdout
@@ -41,7 +41,7 @@ module Danger
       }
     end
 
-    ERRORS_REGEX = /Formatting\s(.*)\n-- rules applied:(.*)$/.freeze
+    ERRORS_REGEX = /\/(.*):\d+:\d+: (warning|error):(.*)$/.freeze
 
     def errors(output)
       errors = []
