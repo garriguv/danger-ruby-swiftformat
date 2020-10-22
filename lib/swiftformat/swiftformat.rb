@@ -41,7 +41,7 @@ module Danger
       }
     end
 
-    ERRORS_REGEX = /\/(.*):\d+:\d+: (warning|error):(.*)$/.freeze
+    ERRORS_REGEX = /.*\/([^\/]+:\d+:\d+): ((warning|error):.*)$/.freeze
 
     def errors(output)
       errors = []
