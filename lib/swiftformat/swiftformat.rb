@@ -62,7 +62,7 @@ module Danger
       if RUNTIME_REGEX.match(output)
         RUNTIME_REGEX.match(output)[1]
       else
-        logger = Logger.new(STDERR)
+        logger = Logger.new($stderr)
         logger.error("Invalid run_time output: #{output}")
         "-1"
       end

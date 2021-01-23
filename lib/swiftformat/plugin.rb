@@ -56,7 +56,7 @@ module Danger
       message << "| File | Rules |\n"
       message << "| ---- | ----- |\n"
       results[:errors].each do |error|
-        message << "| #{error[:file].gsub(Dir.pwd + '/', '')} | #{error[:rules].join(', ')} |\n"
+        message << "| #{error[:file].gsub("#{Dir.pwd}/", '')} | #{error[:rules].join(', ')} |\n"
       end
 
       unless additional_message.nil?
