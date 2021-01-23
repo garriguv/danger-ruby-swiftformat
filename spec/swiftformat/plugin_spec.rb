@@ -56,8 +56,8 @@ module Danger
       end
 
       context "with swiftversion" do
-        let (:swiftversion) { "5" }
-        let(:success_output) { { errors: [], stats: { run_time: "0.08s"}}}
+        let(:swiftversion) { "5" }
+        let(:success_output) { { errors: [], stats: { run_time: "0.08s" } } }
 
         it "should pass the additional flag to swiftformat" do
           allow(@sut.git).to receive(:added_files).and_return(["Added.swift"])
@@ -66,8 +66,8 @@ module Danger
           allow(@sut.git).to receive(:renamed_files).and_return([{}])
           allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
           allow_any_instance_of(SwiftFormat).to receive(:check_format)
-                                                  .with(%w(Added.swift Modified.swift), nil, swiftversion)
-                                                  .and_return(success_output)
+            .with(%w(Added.swift Modified.swift), nil, swiftversion)
+            .and_return(success_output)
 
           @sut.swiftversion = swiftversion
 
