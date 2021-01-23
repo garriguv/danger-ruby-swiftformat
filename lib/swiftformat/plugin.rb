@@ -26,8 +26,13 @@ module Danger
 
     # An array of file and directory paths to exclude
     #
-    # @return [Array<String]
+    # @return [Array<String>]
     attr_accessor :exclude
+
+    # The project Swift version
+    #
+    # @return [String]
+    attr_accessor :swiftversion
 
     # Runs swiftformat
     #
@@ -46,7 +51,7 @@ module Danger
       return if swift_files.empty?
 
       # Run swiftformat
-      results = swiftformat.check_format(swift_files, additional_args)
+      results = swiftformat.check_format(swift_files, additional_args, swiftversion)
 
       # Stop processing if the errors array is empty
       return if results[:errors].empty?
