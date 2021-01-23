@@ -36,7 +36,7 @@ RSpec.describe Danger::SwiftFormat do
     it "should run swiftformat on the specified files" do
       files = %w(/path/to/file.swift /path/to/directory/)
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat /path/to/file.swift /path/to/directory/ --dryrun --verbose))
+        .with(%w(swiftformat /path/to/file.swift /path/to/directory/ --lint --lenient))
         .and_return(fixture("swiftformat_output.txt"))
 
       @sut.check_format(files)
@@ -44,18 +44,17 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should return a formatted output including rules when there are errors" do
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat . --dryrun --verbose))
+        .with(%w(swiftformat . --lint --lenient))
         .and_return(fixture("swiftformat_output_with_errors.txt"))
 
       output = {
           errors: [
-            {
-                file: "/Users/garriguv/FileWithErrors.swift",
-                rules: %w(consecutiveBlankLines spaceAroundParens trailingSpace)
-            }
+            { file: "spec/fixtures/1_BadFile.swift:3:1", rules: ["warning: (spaceAroundOperators) Add or remove space around operators or delimiters."] },
+            { file: "spec/fixtures/1_BadFile.swift:4:1", rules: ["warning: (spaceInsideParens) Remove space inside parentheses."] },
+            { file: "spec/fixtures/1_BadFile.swift:5:1", rules: ["warning: (indent) Indent code in accordance with the scope level."] }
           ],
           stats: {
-              run_time: "0.08"
+              run_time: "0.02"
           }
       }
       expect(@sut.check_format(%w(.))).to eq(output)
@@ -63,13 +62,13 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should also return a formatted output if there were no errors" do
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat . --dryrun --verbose))
+        .with(%w(swiftformat . --lint --lenient))
         .and_return(fixture("swiftformat_output.txt"))
 
       output = {
           errors: [],
           stats: {
-              run_time: "0.08"
+              run_time: "0.01"
           }
       }
 
@@ -78,7 +77,7 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should raise an error if the output is empty" do
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat . --dryrun --verbose))
+        .with(%w(swiftformat . --lint --lenient))
         .and_return("")
 
       expect { @sut.check_format(%w(.)) }.to raise_error("Error running SwiftFormat: Empty output.")
@@ -86,13 +85,13 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should support nil additional command line arguments" do
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat . --dryrun --verbose))
+        .with(%w(swiftformat . --lint --lenient))
         .and_return(fixture("swiftformat_output.txt"))
 
       output = {
           errors: [],
           stats: {
-              run_time: "0.08"
+              run_time: "0.01"
           }
       }
 
@@ -101,13 +100,13 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should support additional command line arguments" do
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat . --self insert --indent tab --dryrun --verbose))
+        .with(%w(swiftformat . --self insert --indent tab --lint --lenient))
         .and_return(fixture("swiftformat_output.txt"))
 
       output = {
           errors: [],
           stats: {
-              run_time: "0.08"
+              run_time: "0.01"
           }
       }
 
@@ -116,7 +115,7 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should not crash if the output is invalid" do
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat . --self insert --indent tab --dryrun --verbose))
+        .with(%w(swiftformat . --self insert --indent tab --lint --lenient))
         .and_return(fixture("swiftformat_output_bad.txt"))
 
       output = {
