@@ -42,10 +42,34 @@ module Danger
           allow(@sut.git).to receive(:renamed_files).and_return([{}])
           allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
           allow_any_instance_of(SwiftFormat).to receive(:check_format)
-            .with(%w(Added.swift Modified.swift), additional_args)
+            .with(%w(Added.swift Modified.swift), additional_args, nil)
             .and_return(success_output)
 
           @sut.additional_args = additional_args
+
+          @sut.check_format(fail_on_error: true)
+
+          status = @sut.status_report
+          expect(status[:errors]).to be_empty
+          expect(status[:markdowns]).to be_empty
+        end
+      end
+
+      context "with swiftversion" do
+        let (:swiftversion) { "5" }
+        let(:success_output) { { errors: [], stats: { run_time: "0.08s"}}}
+
+        it "should pass the additional flag to swiftformat" do
+          allow(@sut.git).to receive(:added_files).and_return(["Added.swift"])
+          allow(@sut.git).to receive(:modified_files).and_return(["Modified.swift"])
+          allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.swift"])
+          allow(@sut.git).to receive(:renamed_files).and_return([{}])
+          allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
+          allow_any_instance_of(SwiftFormat).to receive(:check_format)
+                                                  .with(%w(Added.swift Modified.swift), nil, swiftversion)
+                                                  .and_return(success_output)
+
+          @sut.swiftversion = swiftversion
 
           @sut.check_format(fail_on_error: true)
 
@@ -65,7 +89,7 @@ module Danger
           allow(@sut.git).to receive(:deleted_files).and_return(["Deleted.swift"])
           allow(@sut.git).to receive(:renamed_files).and_return([{}])
           allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
-          allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil).and_return(error_output)
+          allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil, nil).and_return(error_output)
           @sut.additional_message = additional_message
           @sut.check_format(fail_on_error: true)
 
@@ -86,7 +110,7 @@ module Danger
           allow(@sut.git).to receive(:renamed_files).and_return([{}])
           allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
           allow_any_instance_of(SwiftFormat).to receive(:check_format)
-            .with(%w(Added.swift), nil)
+            .with(%w(Added.swift), nil, nil)
             .and_return(success_output)
 
           @sut.exclude = exclude
@@ -110,7 +134,7 @@ module Danger
           allow(@sut.git).to receive(:renamed_files).and_return([{ before: "ModifiedBefore.swift", after: "ModifiedAfter.swift" }])
           allow_any_instance_of(SwiftFormat).to receive(:installed?).and_return(true)
           allow_any_instance_of(SwiftFormat).to receive(:check_format)
-            .with(%w(Added.swift ModifiedAfter.swift), additional_args)
+            .with(%w(Added.swift ModifiedAfter.swift), additional_args, nil)
             .and_return(success_output)
 
           @sut.additional_args = additional_args
@@ -156,7 +180,7 @@ module Danger
 
           context "when swiftformat does not find any errors" do
             before do
-              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil).and_return(success_output)
+              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil, nil).and_return(success_output)
             end
 
             it "should not do anything" do
@@ -170,7 +194,7 @@ module Danger
 
           context "when swiftformat finds errors" do
             before do
-              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil).and_return(error_output)
+              allow_any_instance_of(SwiftFormat).to receive(:check_format).with(%w(Added.swift Modified.swift), nil, nil).and_return(error_output)
             end
 
             it "should output some markdown and error if fail_on_error is true" do

@@ -10,9 +10,15 @@ module Danger
       Cmd.run([@path, "--version"])
     end
 
-    def check_format(files, additional_args = "")
+    def check_format(files, additional_args = "", swiftversion = "")
       cmd = [@path] + files
       cmd << additional_args.split unless additional_args.nil? || additional_args.empty?
+
+      unless swiftversion.empty?
+        cmd << "--swiftversion"
+        cmd << swiftversion
+      end
+
       cmd << %w(--lint --lenient)
       stdout, stderr, status = Cmd.run(cmd.flatten)
 

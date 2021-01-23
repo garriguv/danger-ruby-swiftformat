@@ -38,6 +38,12 @@ You can specify the `swiftformat` binary using the `binary_path` parameter:
 swiftformat.binary_path = "/path/to/swiftformat"
 ```
 
+You can specify the Swift version of your project using the `swiftversion` parametter:
+
+```ruby
+swiftformat.swiftversion = "5"
+```
+
 You can specify additional `swiftformat` arguments using the `additional_args` parameter:
 
 ```ruby

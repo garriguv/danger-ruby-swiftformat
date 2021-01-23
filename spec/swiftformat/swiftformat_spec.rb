@@ -100,7 +100,7 @@ RSpec.describe Danger::SwiftFormat do
 
     it "should support additional command line arguments" do
       expect(@cmd).to receive(:run)
-        .with(%w(swiftformat . --self insert --indent tab --lint --lenient))
+        .with(%w(swiftformat . --self insert --indent tab --swiftversion 5 --lint --lenient))
         .and_return(fixture("swiftformat_output.txt"))
 
       output = {
@@ -110,7 +110,7 @@ RSpec.describe Danger::SwiftFormat do
           }
       }
 
-      expect(@sut.check_format(%w(.), "--self insert --indent tab")).to eq(output)
+      expect(@sut.check_format(%w(.), "--self insert --indent tab", "5")).to eq(output)
     end
 
     it "should not crash if the output is invalid" do
