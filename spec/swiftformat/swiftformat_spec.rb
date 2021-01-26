@@ -95,7 +95,7 @@ RSpec.describe Danger::SwiftFormat do
           }
       }
 
-      expect(@sut.check_format(%w(.), nil)).to eq(output)
+      expect(@sut.check_format(%w(.), nil, nil)).to eq(output)
     end
 
     it "should support additional command line arguments" do
