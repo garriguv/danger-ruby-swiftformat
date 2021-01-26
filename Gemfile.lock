@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    danger-swiftformat (0.8.0)
+    danger-swiftformat (0.8.1)
       danger-plugin-api (~> 1.0)
 
 GEM
