@@ -14,7 +14,7 @@ module Danger
       cmd = [@path] + files
       cmd << additional_args.split unless additional_args.nil? || additional_args.empty?
 
-      unless swiftversion.empty?
+      unless swiftversion.nil? || swiftversion.empty?
         cmd << "--swiftversion"
         cmd << swiftversion
       end
