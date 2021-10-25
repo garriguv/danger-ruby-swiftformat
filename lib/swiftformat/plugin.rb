@@ -40,7 +40,7 @@ module Danger
     #
     # @return [void]
     #
-    def check_format(fail_on_error: false)
+    def check_format(fail_on_error: false, inline_mode: false)
       # Check if SwiftFormat is installed
       raise "Could not find SwiftFormat executable" unless swiftformat.installed?
 
@@ -56,19 +56,23 @@ module Danger
       # Stop processing if the errors array is empty
       return if results[:errors].empty?
 
-      # Process the errors
-      message = "### SwiftFormat found issues:\n\n"
-      message << "| File | Rules |\n"
-      message << "| ---- | ----- |\n"
-      results[:errors].each do |error|
-        message << "| #{error[:file].gsub("#{Dir.pwd}/", '')} | #{error[:rules].join(', ')} |\n"
-      end
+      if inline_mode
+        send_inline_comment(results, fail_on_error ? :fail : :warn)
+      else
+        # Process the errors
+        message = "### SwiftFormat found issues:\n\n"
+        message << "| File | Rules |\n"
+        message << "| ---- | ----- |\n"
+        results[:errors].each do |error|
+          message << "| #{error[:file].gsub("#{Dir.pwd}/", '')} | #{error[:rules].join(', ')} |\n"
+        end
 
-      unless additional_message.nil?
-        message << "\n" << additional_message
-      end
+        unless additional_message.nil?
+          message << "\n" << additional_message
+        end
 
-      markdown message
+        markdown message
+      end
 
       if fail_on_error
         fail "SwiftFormat found issues"
@@ -93,6 +97,24 @@ module Danger
         .reject { |file| @exclude.any? { |glob| File.fnmatch(glob, file) } }
         .uniq
         .sort
+    end
+
+    # Send inline comment with danger's warn or fail method
+    #
+    # @return [void]
+    def send_inline_comment(results, method)
+      results[:errors].each do |error|
+        file = error[:file]     
+        file_components = file.split(':')
+        line = file_components[1]
+        filename = file_components.first.split('/').last
+        file_path = file_components.first
+
+        message = "#{error[:rules].join(', ')}".dup
+        message << " `#{filename}:#{line}`" # file:line for pasting into Xcode Quick Open
+
+        send(method, message, file: file_path, line: line)
+      end
     end
 
     # Constructs the SwiftFormat class
