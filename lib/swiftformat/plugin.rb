@@ -34,13 +34,18 @@ module Danger
     # @return [String]
     attr_accessor :swiftversion
 
+    # Show issues inline in the diff instead of in a comment.
+    #
+    # @return [Boolean]
+    attr_accessor :inline_mode
+
     # Runs swiftformat
     #
     # @param [Boolean] fail_on_error
     #
     # @return [void]
     #
-    def check_format(fail_on_error: false, inline_mode: false)
+    def check_format(fail_on_error: false)
       # Check if SwiftFormat is installed
       raise "Could not find SwiftFormat executable" unless swiftformat.installed?
 
