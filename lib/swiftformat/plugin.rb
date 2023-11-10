@@ -34,13 +34,18 @@ module Danger
     # @return [String]
     attr_accessor :swiftversion
 
+    # Show issues inline in the diff instead of in a comment.
+    #
+    # @return [Boolean]
+    attr_accessor :inline_mode
+
     # Runs swiftformat
     #
     # @param [Boolean] fail_on_error
     #
     # @return [void]
     #
-    def check_format(fail_on_error: false, inline_mode: false)
+    def check_format(fail_on_error: false)
       # Check if SwiftFormat is installed
       raise "Could not find SwiftFormat executable" unless swiftformat.installed?
 
@@ -104,13 +109,13 @@ module Danger
     # @return [void]
     def send_inline_comment(results, method)
       results[:errors].each do |error|
-        file = error[:file]     
-        file_components = file.split(':')
+        file = error[:file]
+        file_components = file.split(":")
         line = file_components[1]
-        filename = file_components.first.split('/').last
+        filename = file_components.first.split("/").last
         file_path = file_components.first
 
-        message = "#{error[:rules].join(', ')}".dup
+        message = error[:rules].join(", ").to_s.dup
         message << " `#{filename}:#{line}`" # file:line for pasting into Xcode Quick Open
 
         send(method, message, file: file_path, line: line)

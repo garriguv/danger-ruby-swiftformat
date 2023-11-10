@@ -211,6 +211,19 @@ module Danger
               status = @sut.status_report
               expect(status[:errors]).to be_empty
               expect(status[:markdowns]).to_not be_empty
+              expect(status[:warnings]).to be_empty
+            end
+
+            it "should send inline comments when inline_mode is true" do
+              @sut.inline_mode = true
+
+              @sut.check_format
+
+              status = @sut.status_report
+              p status
+              expect(status[:errors]).to be_empty
+              expect(status[:markdowns]).to be_empty
+              expect(status[:warnings]).to_not be_empty
             end
           end
         end
