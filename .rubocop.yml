@@ -85,7 +85,7 @@ Metrics/CyclomaticComplexity:
   Max: 17
 
 # Configuration parameters: AllowURI, URISchemes.
-Metrics/LineLength:
+Layout/LineLength:
   Max: 370
 
 # Configuration parameters: CountKeywordArgs.
@@ -145,7 +145,7 @@ Layout/HeredocIndentation:
 Style/SpecialGlobalVars:
   Enabled: false
 
-PercentLiteralDelimiters:
+Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     "%":  ()
     "%i": ()

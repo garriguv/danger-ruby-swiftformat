@@ -109,13 +109,13 @@ module Danger
     # @return [void]
     def send_inline_comment(results, method)
       results[:errors].each do |error|
-        file = error[:file]     
-        file_components = file.split(':')
+        file = error[:file]
+        file_components = file.split(":")
         line = file_components[1]
-        filename = file_components.first.split('/').last
+        filename = file_components.first.split("/").last
         file_path = file_components.first
 
-        message = "#{error[:rules].join(', ')}".dup
+        message = error[:rules].join(", ").to_s.dup
         message << " `#{filename}:#{line}`" # file:line for pasting into Xcode Quick Open
 
         send(method, message, file: file_path, line: line)
